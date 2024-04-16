@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FeedCreatedEvent;
 use App\Http\Requests\FeedRequest;
 use App\Http\Resources\FeedResource;
 use App\Models\Feed;
@@ -30,7 +31,9 @@ class FeedController extends Controller
 
     public function store(FeedRequest $request)
     {
-        $request->user()->feeds()->create($request->validated());
+        $feed = $request->user()->feeds()->create($request->validated());
+
+        event(new FeedCreatedEvent($feed));
 
         return back()->with('success', 'Feed created successfully');
     }
