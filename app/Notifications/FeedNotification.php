@@ -28,6 +28,7 @@ class FeedNotification extends Notification
     public function via(object $notifiable): array
     {
         $channels = [];
+        $channels[] = 'database';
         if ($notifiable->email_verified_at) {
             $channels[] = 'mail';
         }
@@ -58,7 +59,8 @@ class FeedNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'title' => 'New Post Published',
+            'message' => "{$this->feed->user->name} has published a new post.",
         ];
     }
 }

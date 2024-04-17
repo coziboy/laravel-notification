@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/list', 'list')->name('list');
         });
     Route::resource('feeds', FeedController::class)->only(['index', 'store', 'destroy']);
+    Route::resource('notifications', NotificationController::class)->only(['index', 'show']);
 });
 
 require __DIR__.'/auth.php';

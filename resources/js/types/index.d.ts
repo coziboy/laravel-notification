@@ -13,6 +13,14 @@ export interface Feed {
   user: User;
 }
 
+export interface Notification {
+  id: number;
+  title: string;
+  message: string;
+  time: string;
+  read: boolean;
+}
+
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
   auth: {
     user: User;
