@@ -2,18 +2,18 @@
 
 namespace App\Events;
 
-use App\Http\Resources\FeedResource;
-use App\Models\Feed;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
-class FeedCreatedEvent implements ShouldBroadcast
+class FeedDeletedEvent implements ShouldBroadcast
 {
-    use Dispatchable;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
-        public Feed $feed
+        private readonly int $feed_id
     ) {
     }
 
@@ -24,15 +24,13 @@ class FeedCreatedEvent implements ShouldBroadcast
 
     public function broadcastAs(): string
     {
-        return 'feed.created';
+        return 'feed.deleted';
     }
 
     public function broadcastWith(): array
     {
-        $feed = $this->feed->load('user');
-
         return [
-            'feed' => new FeedResource($feed),
+            'feed_id' => $this->feed_id,
         ];
     }
 }

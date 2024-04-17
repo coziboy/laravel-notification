@@ -1833,6 +1833,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"laravel-echo@npm:^1.16.1":
+  version: 1.16.1
+  resolution: "laravel-echo@npm:1.16.1"
+  checksum: 10c0/03a60a9473b22e8fe6c9438efc57991bd432a96c7b43ef2b1da0804037db25b944ace1e1297383f6683e7ad7398e868eb9b7207961ee4cd2bea47f64697ab7bc
+  languageName: node
+  linkType: hard
+
 "laravel-vite-plugin@npm:^1.0":
   version: 1.0.2
   resolution: "laravel-vite-plugin@npm:1.0.2"
@@ -2354,6 +2361,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pusher-js@npm:^8.4.0-rc2":
+  version: 8.4.0-rc2
+  resolution: "pusher-js@npm:8.4.0-rc2"
+  dependencies:
+    tweetnacl: "npm:^1.0.3"
+  checksum: 10c0/3355f0e6e5bae79c27f380b987fe51a5a4df4ea9f28ef39777a76f702b0dc624d2c97e548b753402a3fb20c60558dc29a122b6e10c9b71089fe6f2a32a7dea12
+  languageName: node
+  linkType: hard
+
 "qs@npm:^6.9.0":
   version: 6.12.1
   resolution: "qs@npm:6.12.1"
@@ -2546,8 +2562,10 @@ __metadata:
     autoprefixer: "npm:^10.4.12"
     axios: "npm:^1.6.4"
     dayjs: "npm:^1.11.10"
+    laravel-echo: "npm:^1.16.1"
     laravel-vite-plugin: "npm:^1.0"
     postcss: "npm:^8.4.31"
+    pusher-js: "npm:^8.4.0-rc2"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-hot-toast: "npm:^2.4.1"
@@ -2861,6 +2879,13 @@ __metadata:
   version: 0.1.13
   resolution: "ts-interface-checker@npm:0.1.13"
   checksum: 10c0/232509f1b84192d07b81d1e9b9677088e590ac1303436da1e92b296e9be8e31ea042e3e1fd3d29b1742ad2c959e95afe30f63117b8f1bc3a3850070a5142fea7
+  languageName: node
+  linkType: hard
+
+"tweetnacl@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "tweetnacl@npm:1.0.3"
+  checksum: 10c0/069d9df51e8ad4a89fbe6f9806c68e06c65be3c7d42f0701cc43dba5f0d6064686b238bbff206c5addef8854e3ce00c643bff59432ea2f2c639feab0ee1a93f9
   languageName: node
   linkType: hard
 

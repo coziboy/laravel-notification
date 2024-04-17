@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Models\Feed;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use JsonException;
@@ -31,6 +32,7 @@ class FeedNotification extends Notification
     {
         $channels = [];
         $channels[] = 'database';
+        $channels[] = 'broadcast';
         if ($notifiable->email_verified_at) {
             $channels[] = 'mail';
         }
@@ -84,5 +86,14 @@ class FeedNotification extends Notification
             ->line("{$this->feed->user->name} has published a new post.".PHP_EOL)
             ->line('Thank you for using our application!')
             ->button('View Post', $url);
+    }
+
+    public function toBroadcast(): BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'title' => 'New Post Published',
+            'message' => "{$this->feed->user->name} has published a new post.",
+            'read' => false,
+        ]);
     }
 }

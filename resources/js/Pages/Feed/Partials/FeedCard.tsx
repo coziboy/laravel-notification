@@ -5,6 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import Dropdown from "@/Components/Dropdown";
 import { useForm, usePage } from "@inertiajs/react";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 
 dayjs.extend(relativeTime);
 
@@ -41,13 +42,7 @@ export default function FeedCard({feed, onDeleted}: Readonly<Props>) {
           {feed.user.id === auth.user.id &&
               <Dropdown>
                   <Dropdown.Trigger>
-                      <button>
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 20 20"
-                               fill="currentColor">
-                              <path
-                                  d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/>
-                          </svg>
-                      </button>
+                      <EllipsisHorizontalIcon className="h-6 w-6 text-gray-400"/>
                   </Dropdown.Trigger>
                   <Dropdown.Content>
                       <Dropdown.Link as="button" href={route('feeds.destroy', feed.id)} onClick={handleDelete}

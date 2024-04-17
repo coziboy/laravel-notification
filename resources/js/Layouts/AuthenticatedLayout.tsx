@@ -8,6 +8,14 @@ import { PageProps, User } from '@/types';
 import { toast, Toaster } from "react-hot-toast";
 import NotificationList from "@/Components/NotificationList";
 import { Bars3Icon, ChevronDownIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import "@/echo";
+import Echo from 'laravel-echo';
+
+declare global {
+  interface Window {
+    Echo: Echo;
+  }
+}
 
 export default function Authenticated({user, header, children}: PropsWithChildren<{ user: User, header?: ReactNode }>) {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);

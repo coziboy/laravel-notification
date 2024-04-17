@@ -22,6 +22,27 @@ function Index({auth}: PageProps) {
     fetchFeeds().catch(error => console.error(error));
   }, []);
 
+  useEffect(() => {
+    window.Echo.channel('feeds')
+      .listen('.feed.created', (event: any) => {
+        setFeeds(prevFeeds => {
+          // Check if the new feed already exists in the state
+          const feedExists = prevFeeds.some(feed => feed.id === event.feed.id);
+
+          // If the feed doesn't exist, add it to the state
+          if (!feedExists) {
+            return [event.feed, ...prevFeeds];
+          }
+
+          // If the feed already exists, return the previous state
+          return prevFeeds;
+        });
+      })
+      .listen('.feed.deleted', (event: any) => {
+        setFeeds(prevFeeds => prevFeeds.filter(feed => feed.id !== event.feed_id));
+      });
+  }, []);
+
   return (
     <AuthenticatedLayout
       user={auth.user}

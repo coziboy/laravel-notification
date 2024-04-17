@@ -17,8 +17,8 @@ export interface Notification {
   id: number;
   title: string;
   message: string;
-  time: string;
   read: boolean;
+  created_at: string;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {

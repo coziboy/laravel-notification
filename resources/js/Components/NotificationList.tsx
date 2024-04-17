@@ -1,13 +1,18 @@
 import React, { useEffect, useMemo } from 'react';
 import Dropdown from "@/Components/Dropdown";
 import { BellIcon } from "@heroicons/react/24/outline";
-import { Link } from "@inertiajs/react";
-import { Notification } from "@/types";
+import { Link, usePage } from "@inertiajs/react";
+import { Notification, PageProps } from "@/types";
 import axios from "axios";
+import dayjs from "dayjs";
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 function NotificationList() {
   const [notifications, setNotifications] = React.useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = React.useState<number>(0);
+  const {auth} = usePage<PageProps>().props
 
   const fetchNotifications = useMemo(() => async () => {
     const response = await axios.get(route('notifications.index'));
@@ -17,6 +22,17 @@ function NotificationList() {
 
   useEffect(() => {
     fetchNotifications().catch(error => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    window.Echo.private('App.Models.User.' + auth.user.id)
+      .notification((notification: any) => {
+        setNotifications(notifications => {
+          const existing = notifications.find(n => n.id === notification.id);
+          return existing ? notifications : [notification, ...notifications];
+        });
+        setUnreadCount(unreadCount => unreadCount + 1);
+      });
   }, []);
 
   return (
@@ -35,22 +51,29 @@ function NotificationList() {
 
       <Dropdown.Content width={'w-96'}>
         <div className="py-1 bg-white dark:bg-gray-700">
-          {notifications.map(notification => (
-            <Link
-              key={notification.id}
-              href={route('notifications.show', notification.id)}
-              className={`block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out ${notification.read ? '' : 'bg-gray-200 dark:bg-gray-900'}`}
-            >
-              <div className="flex items-center">
-                <BellIcon className="h-6 w-6 text-gray-500 dark:text-gray-400 mr-2" aria-hidden="true"/>
-                <div>
-                  <p className="font-semibold">{notification.title}</p>
-                  <p>{notification.message}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{notification.time}</p>
+          {notifications.length ? (
+            notifications.map(notification => (
+              <Link
+                key={notification.id}
+                href={route('notifications.show', notification.id)}
+                className={`block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out ${notification.read ? '' : 'bg-gray-200 dark:bg-gray-900'}`}
+              >
+                <div className="flex items-center">
+                  <BellIcon className="h-6 w-6 text-gray-500 dark:text-gray-400 mr-2" aria-hidden="true"/>
+                  <div>
+                    <p className="font-semibold">{notification.title}</p>
+                    <p>{notification.message}</p>
+                    <p
+                      className="text-xs text-gray-500 dark:text-gray-400">{dayjs(notification.created_at).fromNow()}</p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))
+          ) : (
+            <div className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+              No notifications found.
+            </div>
+          )}
         </div>
       </Dropdown.Content>
     </Dropdown>
